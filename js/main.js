@@ -1,7 +1,12 @@
-function drawCanvas(id, height, width) {
+function drawCanvas(id, height, width, padding) {
 	this.id = id;
 	this.height = height;
 	this.width = width;
+
+	this.padding = padding;
+
+	this.rectWidth = padding;
+	this.rectMaxHeight = height - 2*padding;
 }
 
 drawCanvas.prototype.init = function() {
@@ -19,6 +24,6 @@ drawCanvas.prototype.init = function() {
 var canvas;
 
 window.onload = function() {
-	canvas = new drawCanvas("draw", 400, 1000);
+	canvas = new drawCanvas("draw", 400, 1000, 20);
 	canvas.init();
 }
