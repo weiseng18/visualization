@@ -19,7 +19,7 @@ drawCanvas.prototype.init = function() {
 	this.canvas = c;
 	this.ctx = c.getContext("2d");
 
-	document.body.appendChild(c);
+	get("canvasArea").appendChild(c);
 };
 
 // base of each rectangle should be aligned

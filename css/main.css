@@ -7,3 +7,9 @@ html, body {
 	height: 10vh;
 	width: 100vw;
 }
+
+#canvasArea {
+	position: relative;
+	height: 90vh;
+	width: 100vw;
+}
