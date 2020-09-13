@@ -61,6 +61,28 @@ drawCanvas.prototype.drawArrayData = function(arr) {
 	}
 }
 
+drawCanvas.prototype.toggleHighlight = function(idx, highlight) {
+	// unwrap
+	var value = this.locations[idx].value,
+		topLeftX = this.locations[idx].topLeftX,
+		topLeftY = this.locations[idx].topLeftY,
+		width = this.locations[idx].width;
+		height = this.locations[idx].height;
+		numX = this.locations[idx].numX;
+		numY = this.locations[idx].numY;
+
+	// step 1: delete area from topLeft to (bottomRightX, this.height)
+	this.ctx.clearRect(topLeftX, topLeftY, width, this.height - topLeftY);
+
+	// step 2: draw highlighted version
+	this.ctx.fillStyle = highlight ? "#cc0052" : "#0066cc";
+	this.ctx.textAlign = "center";
+	this.ctx.font = "15px Arial";
+
+	this.ctx.fillRect(topLeftX, topLeftY, width, height);
+	this.ctx.fillText(value, numX, numY);
+}
+
 var canvas;
 
 window.onload = function() {
