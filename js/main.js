@@ -10,6 +10,9 @@ drawCanvas.prototype.init = function() {
 	c.height = this.height;
 	c.width = this.width;
 
+	this.canvas = c;
+	this.ctx = c.getContext("2d");
+
 	document.body.appendChild(c);
 };
 
