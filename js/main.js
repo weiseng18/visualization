@@ -7,6 +7,7 @@ function drawCanvas(id, height, width, padding) {
 
 	this.rectWidth = padding;
 	this.rectMaxHeight = height - 3*padding;
+	this.locations = [];
 }
 
 drawCanvas.prototype.init = function() {
@@ -47,6 +48,16 @@ drawCanvas.prototype.drawArrayData = function(arr) {
 		var numX = bottomRightX - width / 2;
 		var numY = bottomRightY + this.padding;
 		this.ctx.fillText(arr[i], numX, numY);
+
+		// save location data
+		var location = {value: arr[i],
+						topLeftX: topLeftX,
+						topLeftY: topLeftY,
+						width: width,
+						height: height,
+						numX: numX,
+						numY: numY};
+		this.locations.push(location);
 	}
 }
 
