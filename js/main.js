@@ -16,6 +16,8 @@ drawCanvas.prototype.init = function() {
 	c.height = this.height;
 	c.width = this.width;
 
+	c.className = "canvasLayer";
+
 	this.canvas = c;
 	this.ctx = c.getContext("2d");
 

@@ -13,3 +13,9 @@ html, body {
 	height: 90vh;
 	width: 100vw;
 }
+
+.canvasLayer {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
