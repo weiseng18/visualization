@@ -8,6 +8,16 @@ function drawCanvas(id, height, width, padding) {
 	this.rectWidth = padding;
 	this.rectMaxHeight = height - 3*padding;
 	this.locations = [];
+
+	// variables used in swap() function
+	this.animationRunning = false;
+
+	this.bindmove = this.move.bind(this);
+	this.layers = [];
+	this.layersCtx = [];
+	this.mapping = [];
+	this.timeTaken = null;
+	this.timePrev = null;
 }
 
 drawCanvas.prototype.init = function() {
@@ -83,6 +93,135 @@ drawCanvas.prototype.toggleHighlight = function(idx, highlight) {
 
 	this.ctx.fillRect(topLeftX, topLeftY, width, height);
 	this.ctx.fillText(value, numX, numY);
+}
+
+// swap position a and position b
+// assumes the two positions are both highlighted, so it will remain highlighted throughout
+drawCanvas.prototype.swap = function(a, b) {
+	if (this.animationRunning)
+		return;
+
+	// step 0: provide simple mapping for for loops
+	// this maps 0->a and 1->b so that for loops can be executed easily
+	this.mapping = [a, b];
+
+	// step 1: clear a and b from original
+	// step 2: create 2 new canvas, drawing a and b respectively
+	this.layers = [], this.layersCtx = [];
+	for (var i=0; i<2; i++) {
+		var data = this.locations[this.mapping[i]];
+		// step 1: clear a and b from original
+		this.ctx.clearRect(data.topLeftX, data.topLeftY, data.width, this.height - data.topLeftY);
+
+		// step 2: create 2 new canvas, drawing a and b respectively
+
+		// define the canvas
+		this.layers[i] = document.createElement("canvas");
+		this.layers[i].height = this.height;
+		this.layers[i].width = this.width;
+		this.layers[i].className = "canvasLayer";
+
+		// set id and z-index
+		var numericalLayer = (i+1).toString();
+		this.layers[i].id = "layer" + numericalLayer;
+		this.layers[i].style.zIndex = numericalLayer;
+
+		// set canvas drawing styles
+		this.layersCtx[i] = this.layers[i].getContext("2d");
+		this.layersCtx[i].fillStyle = "#cc0052";
+		this.layersCtx[i].textAlign = "center";
+		this.layersCtx[i].font = "15px Arial";
+
+		// draw the rectangle and the number
+		this.layersCtx[i].fillRect(data.topLeftX, data.topLeftY, data.width, data.height);
+		this.layersCtx[i].fillText(data.value, data.numX, data.numY);
+
+		// append canvas to #canvasArea
+		get("canvasArea").appendChild(this.layers[i]);
+	}
+
+	// step 3: move a and b
+
+	// step 3.1: define some constants
+	//           such as the time taken for animation to complete
+
+	this.timeTaken = 1000;  // unit is ms
+	this.timePrev = undefined;
+
+	// step 3.2: start animation frame
+	window.requestAnimationFrame(this.bindmove);
+
+	// step 4: write a and b back into the original canvas
+	// this step is written in move() where you can check that the animation is complete
+
+	// step 5: perform the actual swap
+	// this step is also written in move()
+}
+
+drawCanvas.prototype.move = function(timestamp) {
+	if (this.timePrev === undefined) {
+		this.timePrev = timestamp;
+		this.animationRunning = true;
+	}
+
+	var elapsed = timestamp - this.timePrev;
+	var percentageElapsed = Math.min(elapsed / this.timeTaken, 1);
+
+	var totalDeltaX = this.locations[this.mapping[1]].topLeftX - this.locations[this.mapping[0]].topLeftX;
+
+	var deltaX = percentageElapsed * totalDeltaX;
+
+	for (var i=0; i<2; i++) {
+		var data = this.locations[this.mapping[i]];
+
+		// tentatively will clear whole canvas unless performance issues
+		this.layersCtx[i].clearRect(0, 0, this.width, this.height);
+		this.layersCtx[i].fillRect(data.topLeftX + deltaX, data.topLeftY, data.width, data.height);
+		this.layersCtx[i].fillText(data.value, data.numX + deltaX, data.numY);
+
+		// this is to make the 2nd element go to the left
+		deltaX *= -1;
+	}
+
+	if (elapsed < this.timeTaken)
+		window.requestAnimationFrame(this.bindmove);
+	else {
+		this.ctx.fillStyle = "#cc0052";
+		this.ctx.textAlign = "center";
+		this.ctx.font = "15px Arial";
+
+		// step 4: write a and b back into the original canvas
+		for (var i=0; i<2; i++) {
+			var data = this.locations[this.mapping[i]];
+
+			this.ctx.fillRect(data.topLeftX + deltaX, data.topLeftY, data.width, data.height);
+			this.ctx.fillText(data.value, data.numX + deltaX, data.numY);
+
+			// remove element from DOM
+			var elem = get("layer"+ (i+1).toString());
+			elem.parentNode.removeChild(elem);
+			// this is to make the 2nd element go to the left
+			deltaX *= -1;
+		}
+
+		// step 5: perform the actual swap of data
+		// currently, the only values that should change is .topLeftX and .numX
+		// thus, it will be easier to just modify those values directly
+		//
+		// in addition, because of the current implementation of the move() function in that
+		// the position is not being updated every frame; rather the delta is calculated and it is added to the original position,
+		// without modifying the original position, thus there is no whole replacement for locations[a] and locations[b]
+
+		// update positions
+		this.locations[this.mapping[0]].topLeftX += deltaX;
+		this.locations[this.mapping[0]].numX += deltaX;
+		this.locations[this.mapping[1]].topLeftX -= deltaX;
+		this.locations[this.mapping[1]].numX -= deltaX;
+
+		[this.locations[this.mapping[0]], this.locations[this.mapping[1]]] = [this.locations[this.mapping[1]], this.locations[this.mapping[0]]]
+
+		this.animationRunning = false;
+	}
 }
 
 var canvas;
