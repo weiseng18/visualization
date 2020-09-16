@@ -342,8 +342,13 @@ var canvas;
 var arr;
 
 window.onload = function() {
+	// generate menu buttons
+	generateButtons();
+
+	// generate canvas
 	canvas = new drawCanvas("draw", 400, 1000, 20);
 	canvas.init();
 
+	// generate random array and draw it on canvas
 	generateAndDraw();
 }
