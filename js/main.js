@@ -22,6 +22,7 @@ function drawCanvas(id, height, width, padding) {
 	// colors
 	this.color_orig = "#0066cc";
 	this.color_highlight = "#cc0052";
+	this.color_sorted = "#1f7a1f";
 }
 
 drawCanvas.prototype.init = function() {
@@ -73,11 +74,13 @@ drawCanvas.prototype.drawArrayData = function(arr) {
 						height: height,
 						numX: numX,
 						numY: numY,
-						highlight: false};
+						highlight: false,
+						sorted: false};
 		this.locations.push(location);
 	}
 }
 
+// this function toggles between color_orig and color_highlight to identify if an element is highlighted
 drawCanvas.prototype.toggleHighlight = function(idx) {
 	// unwrap
 	var value = this.locations[idx].value,
@@ -87,7 +90,8 @@ drawCanvas.prototype.toggleHighlight = function(idx) {
 		height = this.locations[idx].height,
 		numX = this.locations[idx].numX,
 		numY = this.locations[idx].numY,
-		highlight = this.locations[idx].highlight;
+		highlight = this.locations[idx].highlight,
+		sorted = this.locations[idx].sorted;
 
 	// step 1: delete area from topLeft to (bottomRightX, this.height)
 	this.ctx.clearRect(topLeftX, topLeftY, width, this.height - topLeftY);
@@ -101,6 +105,33 @@ drawCanvas.prototype.toggleHighlight = function(idx) {
 		this.ctx.fillStyle = this.color_highlight;
 		this.locations[idx].highlight = true;
 	}
+	this.ctx.textAlign = "center";
+	this.ctx.font = "15px Arial";
+
+	this.ctx.fillRect(topLeftX, topLeftY, width, height);
+	this.ctx.fillText(value, numX, numY);
+}
+
+// this function changes the color to color_sorted to identify that an element is put in the correct position
+drawCanvas.prototype.markSorted = function(idx) {
+	// unwrap
+	var value = this.locations[idx].value,
+		topLeftX = this.locations[idx].topLeftX,
+		topLeftY = this.locations[idx].topLeftY,
+		width = this.locations[idx].width,
+		height = this.locations[idx].height,
+		numX = this.locations[idx].numX,
+		numY = this.locations[idx].numY,
+		highlight = this.locations[idx].highlight,
+		sorted = this.locations[idx].sorted;
+
+	// step 1: delete area from topLeft to (bottomRightX, this.height)
+	this.ctx.clearRect(topLeftX, topLeftY, width, this.height - topLeftY);
+
+	// step 2: mark as sorted
+	this.locations[idx].sorted = true;
+
+	this.ctx.fillStyle = this.color_sorted;
 	this.ctx.textAlign = "center";
 	this.ctx.font = "15px Arial";
 
