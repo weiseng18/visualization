@@ -2,7 +2,7 @@ function get(id) {
 	return document.getElementById(id);
 }
 
-function random2D(length, min, max) {
+function randomArray(length, min, max) {
 	var arr = [];
 	var range = max - min + 1;
 	for (var i=0; i<length; i++) {
