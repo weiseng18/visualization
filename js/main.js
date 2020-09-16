@@ -18,6 +18,10 @@ function drawCanvas(id, height, width, padding) {
 	this.mapping = [];
 	this.timeTaken = null;
 	this.timePrev = null;
+
+	// colors
+	this.color_orig = "#0066cc";
+	this.color_highlight = "#cc0052";
 }
 
 drawCanvas.prototype.init = function() {
@@ -37,7 +41,7 @@ drawCanvas.prototype.init = function() {
 // base of each rectangle should be aligned
 // height of each rectangle should be relative to the data value
 drawCanvas.prototype.drawArrayData = function(arr) {
-	this.ctx.fillStyle = "#0066cc";
+	this.ctx.fillStyle = this.color_orig;
 	this.ctx.textAlign = "center";
 	this.ctx.font = "15px Arial";
 
@@ -90,11 +94,11 @@ drawCanvas.prototype.toggleHighlight = function(idx) {
 
 	// step 2: draw correctly highlighted version
 	if (highlight) {
-		this.ctx.fillStyle = "#0066cc";
+		this.ctx.fillStyle = this.color_orig;
 		this.locations[idx].highlight = false;
 	}
 	else {
-		this.ctx.fillStyle = "#cc0052";
+		this.ctx.fillStyle = this.color_highlight;
 		this.locations[idx].highlight = true;
 	}
 	this.ctx.textAlign = "center";
@@ -137,7 +141,7 @@ drawCanvas.prototype.swap = function(a, b) {
 
 		// set canvas drawing styles
 		this.layersCtx[i] = this.layers[i].getContext("2d");
-		this.layersCtx[i].fillStyle = data.highlight ? "#cc0052" : "#0066cc";
+		this.layersCtx[i].fillStyle = data.highlight ? this.color_highlight : this.color_orig;
 		this.layersCtx[i].textAlign = "center";
 		this.layersCtx[i].font = "15px Arial";
 
@@ -201,7 +205,7 @@ drawCanvas.prototype.move = function(timestamp) {
 		for (var i=0; i<2; i++) {
 			var data = this.locations[this.mapping[i]];
 
-			this.ctx.fillStyle = data.highlight ? "#cc0052" : "#0066cc";
+			this.ctx.fillStyle = data.highlight ? this.color_highlight : this.color_orig;
 
 			this.ctx.fillRect(data.topLeftX + deltaX, data.topLeftY, data.width, data.height);
 			this.ctx.fillText(data.value, data.numX + deltaX, data.numY);
