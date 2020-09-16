@@ -330,6 +330,7 @@ drawCanvas.prototype.schedule = function(processes) {
 
 // generates a new array and draws
 function generateAndDraw() {
+	canvas.ctx.clearRect(0, 0, canvas.width, canvas.height);
 	arr = randomArray(10, 1, 100);
 	canvas.drawArrayData(arr);
 }
