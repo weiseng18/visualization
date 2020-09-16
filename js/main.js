@@ -68,26 +68,35 @@ drawCanvas.prototype.drawArrayData = function(arr) {
 						width: width,
 						height: height,
 						numX: numX,
-						numY: numY};
+						numY: numY,
+						highlight: false};
 		this.locations.push(location);
 	}
 }
 
-drawCanvas.prototype.toggleHighlight = function(idx, highlight) {
+drawCanvas.prototype.toggleHighlight = function(idx) {
 	// unwrap
 	var value = this.locations[idx].value,
 		topLeftX = this.locations[idx].topLeftX,
 		topLeftY = this.locations[idx].topLeftY,
-		width = this.locations[idx].width;
-		height = this.locations[idx].height;
-		numX = this.locations[idx].numX;
-		numY = this.locations[idx].numY;
+		width = this.locations[idx].width,
+		height = this.locations[idx].height,
+		numX = this.locations[idx].numX,
+		numY = this.locations[idx].numY,
+		highlight = this.locations[idx].highlight;
 
 	// step 1: delete area from topLeft to (bottomRightX, this.height)
 	this.ctx.clearRect(topLeftX, topLeftY, width, this.height - topLeftY);
 
-	// step 2: draw highlighted version
-	this.ctx.fillStyle = highlight ? "#cc0052" : "#0066cc";
+	// step 2: draw correctly highlighted version
+	if (highlight) {
+		this.ctx.fillStyle = "#0066cc";
+		this.locations[idx].highlight = false;
+	}
+	else {
+		this.ctx.fillStyle = "#cc0052";
+		this.locations[idx].highlight = true;
+	}
 	this.ctx.textAlign = "center";
 	this.ctx.font = "15px Arial";
 
@@ -128,7 +137,7 @@ drawCanvas.prototype.swap = function(a, b) {
 
 		// set canvas drawing styles
 		this.layersCtx[i] = this.layers[i].getContext("2d");
-		this.layersCtx[i].fillStyle = "#cc0052";
+		this.layersCtx[i].fillStyle = data.highlight ? "#cc0052" : "#0066cc";
 		this.layersCtx[i].textAlign = "center";
 		this.layersCtx[i].font = "15px Arial";
 
@@ -186,13 +195,14 @@ drawCanvas.prototype.move = function(timestamp) {
 	if (elapsed < this.timeTaken)
 		window.requestAnimationFrame(this.bindmove);
 	else {
-		this.ctx.fillStyle = "#cc0052";
 		this.ctx.textAlign = "center";
 		this.ctx.font = "15px Arial";
 
 		// step 4: write a and b back into the original canvas
 		for (var i=0; i<2; i++) {
 			var data = this.locations[this.mapping[i]];
+
+			this.ctx.fillStyle = data.highlight ? "#cc0052" : "#0066cc";
 
 			this.ctx.fillRect(data.topLeftX + deltaX, data.topLeftY, data.width, data.height);
 			this.ctx.fillText(data.value, data.numX + deltaX, data.numY);
