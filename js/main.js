@@ -9,6 +9,8 @@ function drawCanvas(id, height, width, padding) {
 	this.rectMaxHeight = height - 3*padding;
 	this.locations = [];
 
+	this.animationOver = false;
+
 	// variables used in swap() function
 	this.animationRunning = false;
 
@@ -288,6 +290,8 @@ drawCanvas.prototype.move = function(timestamp) {
 // a, b: specifies comparing a and b
 
 drawCanvas.prototype.schedule = function(processes) {
+	this.animationOver = true;
+
 	this.timeTaken = 1000;  // unit is ms
 
 	var totalDelay = 0;
@@ -328,6 +332,8 @@ drawCanvas.prototype.schedule = function(processes) {
 			totalDelay += this.timeTaken;
 		}
 	}
+
+	setTimeout(() => {this.animationOver = true;}, totalDelay);
 }
 
 // generates a new array and draws
