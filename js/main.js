@@ -94,7 +94,7 @@ drawCanvas.prototype.toggleHighlight = function(idx) {
 		sorted = this.locations[idx].sorted;
 
 	// step 1: delete area from topLeft to (bottomRightX, this.height)
-	this.ctx.clearRect(topLeftX, topLeftY, width, this.height - topLeftY);
+	this.ctx.clearRect(topLeftX, 0, width, this.height);
 
 	// step 2: draw correctly highlighted version
 	if (highlight) {
@@ -126,7 +126,7 @@ drawCanvas.prototype.markSorted = function(idx) {
 		sorted = this.locations[idx].sorted;
 
 	// step 1: delete area from topLeft to (bottomRightX, this.height)
-	this.ctx.clearRect(topLeftX, topLeftY, width, this.height - topLeftY);
+	this.ctx.clearRect(topLeftX, 0, width, this.height);
 
 	// step 2: mark as sorted
 	this.locations[idx].sorted = true;
@@ -155,7 +155,7 @@ drawCanvas.prototype.swap = function(a, b) {
 	for (var i=0; i<2; i++) {
 		var data = this.locations[this.mapping[i]];
 		// step 1: clear a and b from original
-		this.ctx.clearRect(data.topLeftX, data.topLeftY, data.width, this.height - data.topLeftY);
+		this.ctx.clearRect(data.topLeftX, 0, data.width, this.height);
 
 		// step 2: create 2 new canvas, drawing a and b respectively
 
