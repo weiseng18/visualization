@@ -234,6 +234,57 @@ drawCanvas.prototype.move = function(timestamp) {
 	}
 }
 
+// this function takes in an array of processess
+// calculates and executes the setTimeouts
+//
+// 1000 ms delay for each swap
+// 0 ms delay for each highlight
+//
+// processes data format
+//
+// type: swap
+// a, b: specifies the two indices to swap
+//
+// type: highlight
+// a: specifies the index to highlight
+//
+// type: compare
+// a, b: specifies comparing a and b
+
+drawCanvas.prototype.schedule = function(processes) {
+
+	var totalDelay = 0;
+
+	for (var i=0; i<processes.length; i++) {
+		let p = processes[i];
+		if (p.type == "swap") {
+			setTimeout(() => { this.swap(p.a, p.b); }, totalDelay);
+
+			// add extra delay for highlighting after a swap
+			totalDelay += 2*this.timeTaken;
+		}
+		else if (p.type == "compare") {
+			// highlight a and b
+			setTimeout(() => { this.toggleHighlight(p.a, p.highlight) }, totalDelay);
+			setTimeout(() => { this.toggleHighlight(p.b, p.highlight) }, totalDelay);
+
+			totalDelay += this.timeTaken;
+
+			// unhighlight a and b
+			setTimeout(() => { this.toggleHighlight(p.a, p.highlight) }, totalDelay);
+			setTimeout(() => { this.toggleHighlight(p.b, p.highlight) }, totalDelay);
+		}
+		else if (p.type == "highlight") {
+			// this highlight is only triggered to emphasize something
+			// such as showing the minimum in the selection sort
+
+			// highlight
+			setTimeout(() => { this.toggleHighlight(p.a, p.highlight) }, totalDelay);
+			totalDelay += this.timeTaken;
+		}
+	}
+}
+
 var canvas;
 
 window.onload = function() {
