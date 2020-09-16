@@ -328,6 +328,12 @@ drawCanvas.prototype.schedule = function(processes) {
 	}
 }
 
+// generates a new array and draws
+function generateAndDraw() {
+	arr = random2D(10, 1, 100);
+	canvas.drawArrayData(arr);
+}
+
 var canvas;
 
 var arr;
@@ -336,6 +342,5 @@ window.onload = function() {
 	canvas = new drawCanvas("draw", 400, 1000, 20);
 	canvas.init();
 
-	arr = random2D(10, 1, 100);
-	canvas.drawArrayData(arr);
+	generateAndDraw();
 }
