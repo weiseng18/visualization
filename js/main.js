@@ -269,21 +269,21 @@ drawCanvas.prototype.schedule = function(processes) {
 		}
 		else if (p.type == "compare") {
 			// highlight a and b
-			setTimeout(() => { this.toggleHighlight(p.a, p.highlight) }, totalDelay);
-			setTimeout(() => { this.toggleHighlight(p.b, p.highlight) }, totalDelay);
+			setTimeout(() => { this.toggleHighlight(p.a) }, totalDelay);
+			setTimeout(() => { this.toggleHighlight(p.b) }, totalDelay);
 
 			totalDelay += this.timeTaken;
 
 			// unhighlight a and b
-			setTimeout(() => { this.toggleHighlight(p.a, p.highlight) }, totalDelay);
-			setTimeout(() => { this.toggleHighlight(p.b, p.highlight) }, totalDelay);
+			setTimeout(() => { this.toggleHighlight(p.a) }, totalDelay);
+			setTimeout(() => { this.toggleHighlight(p.b) }, totalDelay);
 		}
 		else if (p.type == "highlight") {
 			// this highlight is only triggered to emphasize something
 			// such as showing the minimum in the selection sort
 
 			// highlight
-			setTimeout(() => { this.toggleHighlight(p.a, p.highlight) }, totalDelay);
+			setTimeout(() => { this.toggleHighlight(p.a) }, totalDelay);
 			totalDelay += this.timeTaken;
 		}
 	}
