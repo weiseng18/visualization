@@ -42,6 +42,8 @@ drawCanvas.prototype.init = function() {
 // base of each rectangle should be aligned
 // height of each rectangle should be relative to the data value
 drawCanvas.prototype.drawArrayData = function(arr) {
+	this.locations = [];
+
 	this.ctx.fillStyle = this.color_orig;
 	this.ctx.textAlign = "center";
 	this.ctx.font = "15px Arial";
