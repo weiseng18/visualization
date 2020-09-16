@@ -154,7 +154,6 @@ drawCanvas.prototype.swap = function(a, b) {
 	// step 3.1: define some constants
 	//           such as the time taken for animation to complete
 
-	this.timeTaken = 1000;  // unit is ms
 	this.timePrev = undefined;
 
 	// step 3.2: start animation frame
@@ -252,6 +251,7 @@ drawCanvas.prototype.move = function(timestamp) {
 // a, b: specifies comparing a and b
 
 drawCanvas.prototype.schedule = function(processes) {
+	this.timeTaken = 1000;  // unit is ms
 
 	var totalDelay = 0;
 
