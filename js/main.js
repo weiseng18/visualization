@@ -317,6 +317,14 @@ drawCanvas.prototype.schedule = function(processes) {
 			setTimeout(() => { this.toggleHighlight(p.a) }, totalDelay);
 			totalDelay += this.timeTaken;
 		}
+		else if (p.type == "sorted") {
+			// this highlight is only triggered to emphasize something
+			// such as showing the minimum in the selection sort
+
+			// highlight
+			setTimeout(() => { this.markSorted(p.a) }, totalDelay);
+			totalDelay += this.timeTaken;
+		}
 	}
 }
 
