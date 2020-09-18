@@ -6,7 +6,7 @@ function generateButtons() {
 	button.innerText = "Generate New Array";
 	button.addEventListener("click", () => {
 		if (!canvas.animationOver)
-			canvas.draw();
+			canvas.draw(false, undefined);
 	});
 	ele.appendChild(button);
 

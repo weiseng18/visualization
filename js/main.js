@@ -342,9 +342,10 @@ drawCanvas.prototype.schedule = function(processes) {
 }
 
 // generates a new array and draws
-drawCanvas.prototype.draw = function() {
+drawCanvas.prototype.draw = function(generate, arr) {
 	this.ctx.clearRect(0, 0, this.width, this.height);
-	arr = randomArray(10, 1, 100);
+	if (generate)
+		arr = randomArray(10, 1, 100);
 	this.drawArrayData(arr);
 }
 
@@ -361,5 +362,5 @@ window.onload = function() {
 	canvas.init();
 
 	// generate random array and draw it on canvas
-	canvas.draw();
+	canvas.draw(true);
 }
