@@ -17,4 +17,12 @@ function generateButtons() {
 			selectionSort(arr);
 	});
 	ele.appendChild(button);
+
+	button = document.createElement("button");
+	button.innerText = "Insertion Sort";
+	button.addEventListener("click", () => {
+		if (!canvas.animationOver)
+			insertionSort(arr);
+	});
+	ele.appendChild(button);
 }
