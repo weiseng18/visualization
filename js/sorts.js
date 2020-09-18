@@ -46,7 +46,7 @@ function insertionSort(arr) {
 			rptr--;
 
 			// unhighlight rptr
-			processes.push( {type:"highlight", a:rptr} );
+			processes.push( {type:"highlight_nodelay", a:rptr} );
 
 			if (rptr > 0)
 				processes.push( {type:"compare", a:rptr-1, b:rptr} );

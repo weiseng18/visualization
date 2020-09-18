@@ -323,6 +323,11 @@ drawCanvas.prototype.schedule = function(processes) {
 			setTimeout(() => { this.toggleHighlight(p.a) }, totalDelay);
 			totalDelay += this.timeTaken;
 		}
+		else if (p.type == "highlight_nodelay") {
+			// this is used to preserve a highighted state over multiple steps
+			// used in insertion sort where the element to be moved
+			setTimeout(() => { this.toggleHighlight(p.a) }, totalDelay);
+		}
 		else if (p.type == "sorted") {
 			// this highlight is only triggered to emphasize something
 			// such as showing the minimum in the selection sort
