@@ -12,6 +12,7 @@ For organization, all commits will have the following format:
 where `scope` will be one of the following items:
 
 * `bug-fix` for bug fixes
+* `menu` for adding of new menu items or buttons
 * `feature` for general new features added/revised
 * `feature prep` for changes made that prepare for the introduction of a feature
   * as such, such commits may create new, unresponsive areas, but these commits will not be pushed to master until the whole feature is complete
