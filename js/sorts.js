@@ -23,3 +23,36 @@ function selectionSort(arr) {
 
 	canvas.schedule(processes);
 }
+
+function insertionSort(arr) {
+	var processes = [];
+
+	var length = arr.length;
+
+	processes.push( {type:"sorted", a:0} );
+
+	for (var i=1; i<length; i++) {
+		let rptr = i;
+		processes.push( {type:"compare", a:rptr-1, b:rptr} );
+		while (rptr > 0 && arr[rptr-1] > arr[rptr]) {
+			// highlight rptr as it is lower
+			processes.push( {type:"highlight", a:rptr} );
+
+			// perform swap
+			processes.push( {type:"swap", a:rptr-1, b:rptr} );
+			[arr[rptr-1], arr[rptr]] = [arr[rptr], arr[rptr-1]];
+
+			// update rptr
+			rptr--;
+
+			// unhighlight rptr
+			processes.push( {type:"highlight", a:rptr} );
+
+			if (rptr > 0)
+				processes.push( {type:"compare", a:rptr-1, b:rptr} );
+		}
+		processes.push( {type:"sorted", a:rptr} );
+	}
+
+	canvas.schedule(processes);
+}
