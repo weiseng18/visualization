@@ -13,16 +13,20 @@ function generateButtons() {
 	button = document.createElement("button");
 	button.innerText = "Selection Sort";
 	button.addEventListener("click", () => {
-		if (!canvas.animationOver)
-			selectionSort(arr);
+		if (!canvas.animationOver) {
+			cpy = Array.from(canvas.arr);
+			selectionSort(cpy);
+		}
 	});
 	ele.appendChild(button);
 
 	button = document.createElement("button");
 	button.innerText = "Insertion Sort";
 	button.addEventListener("click", () => {
-		if (!canvas.animationOver)
-			insertionSort(arr);
+		if (!canvas.animationOver) {
+			cpy = Array.from(canvas.arr);
+			insertionSort(cpy);
+		}
 	});
 	ele.appendChild(button);
 }

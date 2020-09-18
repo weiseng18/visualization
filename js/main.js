@@ -347,11 +347,14 @@ drawCanvas.prototype.draw = function(generate) {
 	if (generate)
 		this.arr = randomArray(10, 1, 100);
 	this.drawArrayData(this.arr);
+
+	// deep copy so that other sorting algorithms can be used on the same starting input array
+	cpy = Array.from(this.arr);
 }
 
 var canvas;
 
-var arr;
+var cpy;
 
 window.onload = function() {
 	// generate menu buttons

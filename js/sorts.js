@@ -1,6 +1,8 @@
 // this function performs selection sort on input arr
 // it calls schedule() with the list of processes
 function selectionSort(arr) {
+	canvas.draw(false);
+
 	var processes = [];
 
 	var length = arr.length;
@@ -25,6 +27,8 @@ function selectionSort(arr) {
 }
 
 function insertionSort(arr) {
+	canvas.draw(false);
+
 	var processes = [];
 
 	var length = arr.length;
