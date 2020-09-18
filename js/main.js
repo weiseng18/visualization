@@ -338,7 +338,7 @@ drawCanvas.prototype.schedule = function(processes) {
 		}
 	}
 
-	setTimeout(() => {this.animationOver = true;}, totalDelay);
+	setTimeout(() => {this.animationOver = false;}, totalDelay);
 }
 
 // generates a new array and draws
