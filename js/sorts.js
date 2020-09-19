@@ -58,5 +58,34 @@ function insertionSort(arr) {
 		processes.push( {type:"sorted", a:rptr} );
 	}
 
+}
+
+function bubbleSort(arr) {
+	canvas.draw(false);
+
+	var processes = [];
+
+	var sortedFromIndex = arr.length;
+
+	while (sortedFromIndex > 1) {
+		var next_sortedFromIndex = 0;
+		for (var i=1; i<=sortedFromIndex-1; i++) {
+			processes.push( {type:"compare", a:i-1, b:i} );
+			// if the pair is in the wrong order
+			if (arr[i-1] > arr[i]) {
+				processes.push( {type:"swap", a:i-1, b:i} );
+				[arr[i-1], arr[i]] = [arr[i], arr[i-1]];
+				next_sortedFromIndex = i;
+			}
+		}
+		// anything after the final swap in a single pass
+		// does not need to be checked further as they are all in the correct position.
+		// in the ith pass, the last >= i elements are sorted.
+		for (var i=next_sortedFromIndex; i<sortedFromIndex; i++)
+			processes.push( {type:"sorted", a:i} );
+
+		sortedFromIndex = next_sortedFromIndex;
+	}
+
 	canvas.schedule(processes);
 }
