@@ -11,6 +11,14 @@ function generateButtons() {
 	ele.appendChild(button);
 
 	button = document.createElement("button");
+	button.innerText = "Reload input array";
+	button.addEventListener("click", () => {
+		if (!canvas.animationOver)
+			canvas.draw(false);
+	});
+	ele.appendChild(button);
+
+	button = document.createElement("button");
 	button.innerText = "Selection Sort";
 	button.addEventListener("click", () => {
 		if (!canvas.animationOver) {
