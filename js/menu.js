@@ -29,4 +29,14 @@ function generateButtons() {
 		}
 	});
 	ele.appendChild(button);
+
+	button = document.createElement("button");
+	button.innerText = "Bubble Sort";
+	button.addEventListener("click", () => {
+		if (!canvas.animationOver) {
+			cpy = Array.from(canvas.arr);
+			bubbleSort(cpy);
+		}
+	});
+	ele.appendChild(button);
 }
